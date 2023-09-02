@@ -152,3 +152,4 @@ cython_debug/
 #.idea/
 
 database/msg_time.sql
+config.json
