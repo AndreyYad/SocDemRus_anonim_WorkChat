@@ -7,7 +7,7 @@ from asyncio import new_event_loop
 
 from os import mkdir
 
-from modules.config import TOKEN, CHAT_TO, COULDDAWN
+from modules.config import TOKEN, CHAT_TO, COULDDAWN, GET_ID
 from modules.bot_cmds import *
 from modules.sql_cmds import *
 from modules.coulddawn import *
@@ -22,6 +22,11 @@ print('Бот запущен!')
 async def start_func(msg: Message):
     if msg.chat.type == 'private':
         await send_msg(msg.from_user.id, MESSAGES['start'])
+
+@dp.message_handler(commands = ['id'])
+async def start_func(msg: Message):
+    if GET_ID:
+        print(msg.chat.id)
 
 @dp.message_handler()
 async def say_func(msg: Message):
