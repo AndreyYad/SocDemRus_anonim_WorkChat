@@ -1,5 +1,4 @@
-from aiogram import Bot
-from aiogram.dispatcher import Dispatcher
+from aiogram import Bot, Dispatcher
 from aiogram.utils import executor
 from aiogram.types import Message
 
