@@ -1,6 +1,4 @@
-from aiogram import Bot, Dispatcher
-from aiogram.utils import executor
-from aiogram.types import Message
+from aiogram import Bot, Dispatcher, executor, Message
 
 from asyncio import new_event_loop
 
