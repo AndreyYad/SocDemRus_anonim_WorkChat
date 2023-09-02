@@ -11,6 +11,7 @@ from modules.config import TOKEN, CHAT_TO, COULDDAWN
 from modules.bot_cmds import *
 from modules.sql_cmds import *
 from modules.coulddawn import *
+from modules.messages import MESSAGES
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
@@ -19,7 +20,8 @@ print('Бот запущен!')
 
 @dp.message_handler(commands = ['start'])
 async def start_func(msg: Message):
-    print(await check_user_in_chat(msg.from_user.id))
+    if msg.chat.type == 'private':
+        await send_msg(msg.from_user.id, MESSAGES['start'])
 
 @dp.message_handler()
 async def say_func(msg: Message):
