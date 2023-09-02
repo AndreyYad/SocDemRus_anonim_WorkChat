@@ -1,6 +1,6 @@
 from aiogram import Bot
 from aiogram.dispatcher import Dispatcher
-from aiogram.utils import executor
+from aiogram.utils import executor, exceptions
 from aiogram.types import Message
 
 from asyncio import new_event_loop
@@ -28,16 +28,19 @@ async def say_func(msg: Message):
     user_id = msg.from_user.id
     msg_time = msg.date.timestamp()
     if msg.chat.type == 'private':
-        if await check_user_in_chat(user_id):
-            cd = await get_end_cd(user_id) - msg_time
-            if cd <= 0:
-                await set_end_cd(user_id, msg_time + COULDDAWN)
-                await send_msg(CHAT_TO, msg.text)
-                await send_msg(user_id, 'Сообщение отправлено в "{}"!'.format(await get_chat_name('to')))
+        try:
+            if await check_user_in_chat(user_id):
+                cd = await get_end_cd(user_id) - msg_time
+                if cd <= 0:
+                    await set_end_cd(user_id, msg_time + COULDDAWN)
+                    await send_msg(CHAT_TO, msg.text)
+                    await send_msg(user_id, 'Сообщение отправлено в "{}"!'.format(await get_chat_name('to')))
+                else:
+                    await send_msg(user_id, 'Ещё один запрос сможете отправить только через {}'.format(await get_coulddawn_text(cd)))
             else:
-                await send_msg(user_id, 'Ещё один запрос сможете отправить только через {}'.format(await get_coulddawn_text(cd)))
-        else:
-            await send_msg(user_id, 'Вы не состоите в "{}"!'.format(await get_chat_name('from')))
+                await send_msg(user_id, 'Вы не состоите в "{}"!'.format(await get_chat_name('from')))
+        except exceptions.ChatNotFound:
+            print('Не найден один или оба чата!')
 
 def getComissionChatId(msg:Message):
     return msg.chat.id
