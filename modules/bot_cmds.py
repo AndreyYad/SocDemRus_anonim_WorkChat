@@ -38,7 +38,7 @@ async def check_user_in_chat(user_id: int, dp: Dispatcher | None=None):
 @bot_setup
 async def get_chat_name(which_chat: str, dp: Dispatcher | None=None):
     '''Проверка на членство в чате'''
-    chat_id = {'from' : CHAT_FROM, 'to' : CHAT_TO}[which_chat]
+    chat_id = {'from' : [CHAT_FROM], 'to' : CHAT_TO}[which_chat][0]
     return (await dp.bot.get_chat(chat_id))['title']
 
 if __name__ == '__main__':

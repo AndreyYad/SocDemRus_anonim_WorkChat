@@ -24,7 +24,7 @@ async def start_func(msg: Message):
         await send_msg(msg.from_user.id, MESSAGES['start'])
 
 @dp.message_handler(commands = ['id'])
-async def start_func(msg: Message):
+async def get_id_func(msg: Message):
     if GET_ID:
         print(msg.chat.id)
 
@@ -37,15 +37,13 @@ async def say_func(msg: Message):
             cd = await get_end_cd(user_id) - msg_time
             if cd <= 0:
                 await set_end_cd(user_id, msg_time + COULDDAWN)
-                await send_msg(CHAT_TO, msg.text)
+                for chat_id in CHAT_TO:
+                    await send_msg(chat_id, msg.text)
                 await send_msg(user_id, 'Сообщение отправлено в "{}"!'.format(await get_chat_name('to')))
             else:
                 await send_msg(user_id, 'Ещё один запрос сможете отправить только через {}'.format(await get_coulddawn_text(cd)))
         else:
             await send_msg(user_id, 'Вы не состоите в "{}"!'.format(await get_chat_name('from')))
-
-def getComissionChatId(msg:Message):
-    return msg.chat.id
     
 if __name__ == '__main__':
     try:
