@@ -41,7 +41,10 @@ def getComissionChatId(msg:Message):
     return msg.chat.id
     
 if __name__ == '__main__':
-    mkdir('database')
+    try:
+        mkdir('database')
+    except FileExistsError:
+        pass
     loop = new_event_loop()
     loop.run_until_complete(born_of_db())
     executor.start_polling(dp)
