@@ -37,7 +37,7 @@ async def say_func(msg: Message):
             cd = await get_end_cd(user_id) - msg_time
             if cd <= 0:
                 await set_end_cd(user_id, msg_time + COULDDAWN)
-                for chat_id in CHAT_TO:
+                for chat_id in CHAT_TO[int(msg.text.startswith('test//')):]:
                     await send_msg(chat_id, msg.text)
                 await send_msg(user_id, 'Сообщение отправлено в "{}"!'.format(await get_chat_name('to')))
             else:
